@@ -2,6 +2,9 @@ no application.properties
 spring.jpa.show-sql=true
 spring.jpa.properties.hibernate.format_sql=true
 
+No .class
+	tirar (fetch-type=EAGER)
+
 No ProductDTO, construtor recebendo só entity:
 	(		entity.getCategories().forEach(cat -> this.categories.add(new CategoryDTO(cat)));)
 No productService
@@ -11,11 +14,10 @@ No productService
 		return new ProductDTO(entity);
 		
 	@Transactional(readOnly = true)
-	public ProductDTO findById(Long id) {
-		Optional<Product> obj = repository.findById(id);
-		Product entity = obj.orElseThrow(() -> new ResourceNotFoundException("Entity not found"));
-	//		return new ProductDTO(entity, entity.getCategories());
-		new ProductDTO(entity);
+	public Page<ProductDTO> findAllPaged(PageRequest pageRequest) {
+		Page<Product> page = repository.findAll(pageRequest);
+		repository.findProductsCategories(page.stream().collect(Collectors.toList()));
+		return page.map(x -> new ProductDTO(x));
 	}
 
 No ProductRepository
