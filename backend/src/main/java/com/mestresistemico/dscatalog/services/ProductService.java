@@ -1,6 +1,7 @@
 package com.mestresistemico.dscatalog.services;
 
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import javax.persistence.EntityNotFoundException;
 
@@ -32,15 +33,17 @@ public class ProductService {
 
 	@Transactional(readOnly = true)
 	public Page<ProductDTO> findAllPaged(PageRequest pageRequest) {
-		Page<Product> list = repository.findAll(pageRequest);
-		return list.map(x -> new ProductDTO(x));
+		Page<Product> page = repository.findAll(pageRequest);
+		repository.findProductsCategories(page.stream().collect(Collectors.toList()));
+		return page.map(x -> new ProductDTO(x));
 	}
 
 	@Transactional(readOnly = true)
 	public ProductDTO findById(Long id) {
 		Optional<Product> obj = repository.findById(id);
 		Product entity = obj.orElseThrow(() -> new ResourceNotFoundException("Entity not found"));
-		return new ProductDTO(entity, entity.getCategories());
+//		return new ProductDTO(entity, entity.getCategories());
+		return new ProductDTO(entity);
 	}
 
 	@Transactional

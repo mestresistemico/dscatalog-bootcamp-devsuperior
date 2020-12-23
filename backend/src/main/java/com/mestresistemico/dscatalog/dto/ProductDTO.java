@@ -51,6 +51,7 @@ public class ProductDTO implements Serializable{
 		this.price = entity.getPrice();
 		this.imgUrl = entity.getImgUrl();
 		this.date = entity.getDate();
+		entity.getCategories().forEach(cat -> this.categories.add(new CategoryDTO(cat)));
 	}
 
 	public ProductDTO(Product entity, Set<Category> categories) {

@@ -1,0 +1,135 @@
+no application.properties
+spring.jpa.show-sql=true
+spring.jpa.properties.hibernate.format_sql=true
+
+No ProductDTO, construtor recebendo só entity:
+	(		entity.getCategories().forEach(cat -> this.categories.add(new CategoryDTO(cat)));)
+No productService
+	trocar:
+	//		return new ProductDTO(entity, entity.getCategories());
+	por:
+		return new ProductDTO(entity);
+		
+	@Transactional(readOnly = true)
+	public ProductDTO findById(Long id) {
+		Optional<Product> obj = repository.findById(id);
+		Product entity = obj.orElseThrow(() -> new ResourceNotFoundException("Entity not found"));
+	//		return new ProductDTO(entity, entity.getCategories());
+		new ProductDTO(entity);
+	}
+
+No ProductRepository
+	@Query("SELECT obj FROM Product obj JOIN FETCH obj.categories WHERE obj IN :products")
+	List<Product> findProductsCategories(List<Product> products);
+	
+	
+
+------------------Com N+1
+Hibernate: 
+    select
+        product0_.id as id1_1_,
+        product0_.created_at as created_2_1_,
+        product0_.date as date3_1_,
+        product0_.description as descript4_1_,
+        product0_.img_url as img_url5_1_,
+        product0_.name as name6_1_,
+        product0_.price as price7_1_,
+        product0_.updated_at as updated_8_1_ 
+    from
+        tb_product product0_ 
+    order by
+        product0_.name asc limit ?
+Hibernate: 
+    select
+        count(product0_.id) as col_0_0_ 
+    from
+        tb_product product0_
+Hibernate: 
+    select
+        categories0_.product_id as product_1_2_0_,
+        categories0_.category_id as category2_2_0_,
+        category1_.id as id1_0_1_,
+        category1_.created_at as created_2_0_1_,
+        category1_.name as name3_0_1_,
+        category1_.updated_at as updated_4_0_1_ 
+    from
+        tb_product_category categories0_ 
+    inner join
+        tb_category category1_ 
+            on categories0_.category_id=category1_.id 
+    where
+        categories0_.product_id=?
+Hibernate: 
+    select
+        categories0_.product_id as product_1_2_0_,
+        categories0_.category_id as category2_2_0_,
+        category1_.id as id1_0_1_,
+        category1_.created_at as created_2_0_1_,
+        category1_.name as name3_0_1_,
+        category1_.updated_at as updated_4_0_1_ 
+    from
+        tb_product_category categories0_ 
+    inner join
+        tb_category category1_ 
+            on categories0_.category_id=category1_.id 
+    where
+        categories0_.product_id=?
+Hibernate: 
+    select
+        categories0_.product_id as product_1_2_0_,
+        categories0_.category_id as category2_2_0_,
+        category1_.id as id1_0_1_,
+        category1_.created_at as created_2_0_1_,
+        category1_.name as name3_0_1_,
+        category1_.updated_at as updated_4_0_1_ 
+    from
+        tb_product_category categories0_ 
+    inner join
+        tb_category category1_ 
+            on categories0_.category_id=category1_.id 
+    where
+        categories0_.product_id=?
+
+------------------SEM N+1
+Hibernate: 
+    select
+        product0_.id as id1_1_,
+        product0_.created_at as created_2_1_,
+        product0_.date as date3_1_,
+        product0_.description as descript4_1_,
+        product0_.img_url as img_url5_1_,
+        product0_.name as name6_1_,
+        product0_.price as price7_1_,
+        product0_.updated_at as updated_8_1_ 
+    from
+        tb_product product0_ 
+    order by
+        product0_.name asc limit ?
+Hibernate: 
+    select
+        product0_.id as id1_1_0_,
+        category2_.id as id1_0_1_,
+        product0_.created_at as created_2_1_0_,
+        product0_.date as date3_1_0_,
+        product0_.description as descript4_1_0_,
+        product0_.img_url as img_url5_1_0_,
+        product0_.name as name6_1_0_,
+        product0_.price as price7_1_0_,
+        product0_.updated_at as updated_8_1_0_,
+        category2_.created_at as created_2_0_1_,
+        category2_.name as name3_0_1_,
+        category2_.updated_at as updated_4_0_1_,
+        categories1_.product_id as product_1_2_0__,
+        categories1_.category_id as category2_2_0__ 
+    from
+        tb_product product0_ 
+    inner join
+        tb_product_category categories1_ 
+            on product0_.id=categories1_.product_id 
+    inner join
+        tb_category category2_ 
+            on categories1_.category_id=category2_.id 
+    where
+        product0_.id in (
+            ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ?
+        )
