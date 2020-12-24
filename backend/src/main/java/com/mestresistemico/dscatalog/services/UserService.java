@@ -1,7 +1,6 @@
 package com.mestresistemico.dscatalog.services;
 
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import javax.persistence.EntityNotFoundException;
 
@@ -46,7 +45,7 @@ public class UserService implements UserDetailsService{
 	@Transactional(readOnly = true)
 	public Page<UserDTO> findAllPaged(PageRequest pageRequest) {
 		Page<User> page = repository.findAll(pageRequest);
-		repository.findUserRoles(page.stream().collect(Collectors.toList()));
+//		repository.findUserRoles(page.stream().collect(Collectors.toList()));
 		return page.map(x -> new UserDTO(x));
 	}
 
