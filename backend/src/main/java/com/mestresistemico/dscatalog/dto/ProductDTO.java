@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Set;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.PastOrPresent;
 import javax.validation.constraints.Positive;
 import javax.validation.constraints.Size;
@@ -29,7 +30,8 @@ public class ProductDTO implements Serializable{
 	@PastOrPresent(message = "Informe uma data passada ou presente")
 	private Instant date;
 	
-	List<CategoryDTO> categories = new ArrayList<>();
+	@NotEmpty(message = "Produto sem categoria não é permitido")
+	private List<CategoryDTO> categories = new ArrayList<>();
 
 	public ProductDTO () {}
 	
@@ -51,7 +53,6 @@ public class ProductDTO implements Serializable{
 		this.price = entity.getPrice();
 		this.imgUrl = entity.getImgUrl();
 		this.date = entity.getDate();
-		entity.getCategories().forEach(cat -> this.categories.add(new CategoryDTO(cat)));
 	}
 
 	public ProductDTO(Product entity, Set<Category> categories) {
