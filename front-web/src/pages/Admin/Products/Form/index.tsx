@@ -1,6 +1,6 @@
-import { makeRequest } from 'core/utils/request';
-import BaseForm from 'pages/Admin/components/BaseForm';
 import React, { useState } from 'react';
+import { makePrivateRequest } from 'core/utils/request';
+import BaseForm from 'pages/Admin/components/BaseForm';
 import './styles.scss';
 
 type FormState = {
@@ -34,7 +34,7 @@ const Form = () => {
             imgUrl: 'https://d3ddx6b2p2pevg.cloudfront.net/Custom/Content/Products/10/73/1073914_console-xbox-series-s_m3_637369732117934972.jpg',
             categories: [{id: formData.category}]
         }
-        makeRequest({url: '/products', method: 'POST', data: payload})
+        makePrivateRequest({url: '/products', method: 'POST', data: payload})
         .then(() => {
             setFormData({name: '', category: '', price: '', description: ''});
         });
