@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.Set;
 
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.PastOrPresent;
 import javax.validation.constraints.Positive;
 import javax.validation.constraints.Size;
@@ -30,7 +29,7 @@ public class ProductDTO implements Serializable{
 	@PastOrPresent(message = "Informe uma data passada ou presente")
 	private Instant date;
 	
-	@NotEmpty(message = "Produto sem categoria não é permitido")
+//	@NotEmpty(message = "Produto sem categoria não é permitido")
 	private List<CategoryDTO> categories = new ArrayList<>();
 
 	public ProductDTO () {}
