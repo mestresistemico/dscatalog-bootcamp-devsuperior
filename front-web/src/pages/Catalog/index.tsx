@@ -26,7 +26,6 @@ const Catalog = () => {
             })
     }, [activePage]);
 
-
     return (
         <div className="catalog-container">
             <h1 className="catalog-title">
