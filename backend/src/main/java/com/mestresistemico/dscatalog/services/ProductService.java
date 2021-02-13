@@ -52,8 +52,8 @@ public class ProductService {
 	public ProductDTO findById(Long id) {
 		Optional<Product> obj = repository.findById(id);
 		Product entity = obj.orElseThrow(() -> new ResourceNotFoundException("Entity not found"));
-//		return new ProductDTO(entity, entity.getCategories());
-		return new ProductDTO(entity);
+		return new ProductDTO(entity, entity.getCategories());
+//		return new ProductDTO(entity);
 	}
 
 	@Transactional
@@ -73,7 +73,15 @@ public class ProductService {
 	public ProductDTO update(Long id, ProductDTO dto) {
 		try {
 			Product entity = repository.getOne(id);
+			if(entity.getCategories().size() == 0) {
+				Category cat = categoryRepository.getOne(1L); 
+				entity.getCategories().add(cat);
+			}
 			copyDTOToEntity(dto, entity);
+			if(entity.getCategories().size() == 0) {
+				Category cat = categoryRepository.getOne(1L); 
+				entity.getCategories().add(cat);
+			}
 			entity = repository.save(entity);
 			return new ProductDTO(entity);
 		} catch (EntityNotFoundException e) {
