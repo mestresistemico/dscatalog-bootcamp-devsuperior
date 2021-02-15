@@ -7,8 +7,9 @@ import { toast } from 'react-toastify';
 import { useHistory, useParams } from 'react-router-dom';
 import Select from 'react-select';
 import { Category } from 'core/types/Product';
+import PriceField from './PriceField';
 
-type FormState = {
+export type FormState = {
     name: string;
     price: string;
     imgUrl: string;
@@ -106,6 +107,7 @@ const Form = () => {
                                 classNamePrefix='categories-select'
                                 placeholder='Categorias'
                                 isLoading={isLoadingCategories}
+                                defaultValue=''
                                 isMulti
                             />
                             {errors.categories && (
@@ -115,11 +117,7 @@ const Form = () => {
                             )}
                         </div>
                         <div className='margin-bottom-30'>
-                            <input type="number"
-                                name="price"
-                                className="form-control input-base"
-                                ref={register({ required: "Campo obrigatório" })}
-                                placeholder={"Preço"} />
+                            <PriceField control={control}/>
                             {errors.price && (
                                 <div className='invalid-feedback d-block'>
                                     {errors.price.message}
