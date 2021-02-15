@@ -1,14 +1,6 @@
-import axios, {Method} from 'axios';
+import axios, { AxiosRequestConfig } from 'axios';
 import { CLIENT_ID, CLIENT_SECRET, getSessionData, logout } from './auth';
 import qs from 'qs';
-
-type RequestParams = {
-    method?: Method;
-    url: string;
-    data?: object | string;
-    params?: object;
-    headers?: object;
-}
 
 type LoginData = {
     username: string;
@@ -19,24 +11,21 @@ const BASE_URL = 'http://localhost:8080';
 
 axios.interceptors.response.use(function (response) {
     return response;
-  }, function (error) {
-    if (error.response.status === 401){
+}, function (error) {
+    if (error.response.status === 401) {
         logout();
     }
     return Promise.reject(error);
-  });
+});
 
-export const makeRequest = ({method = 'GET', url, data, params, headers}: RequestParams) => {
+export const makeRequest = (params: AxiosRequestConfig) => {
     return axios({
-        method,
-        url: `${BASE_URL}${url}`,
-        data, 
-        params,
-        headers
+        ...params,
+        baseURL: BASE_URL
     });
 }
 
-export const makePrivateRequest = ({method = 'GET', url, data, params}: RequestParams) => {
+export const makePrivateRequest = (params: AxiosRequestConfig) => {
     const sessionData = getSessionData();
 
     const headers = {
@@ -44,10 +33,7 @@ export const makePrivateRequest = ({method = 'GET', url, data, params}: RequestP
     }
 
     return makeRequest({
-        method,
-        url,
-        data, 
-        params,
+        ...params,
         headers
     });
 }
@@ -58,12 +44,12 @@ export const makeLogin = (loginData: LoginData) => {
         Authorization: `Basic ${window.btoa(token)}`,
         'Content-Type': 'application/x-www-form-urlencoded'
     }
-    const payload = qs.stringify({...loginData, grant_type: 'password'});
+    const payload = qs.stringify({ ...loginData, grant_type: 'password' });
 
     return makeRequest({
         method: 'POST',
         url: '/oauth/token',
-        data: payload, 
+        data: payload,
         headers
     });
 }

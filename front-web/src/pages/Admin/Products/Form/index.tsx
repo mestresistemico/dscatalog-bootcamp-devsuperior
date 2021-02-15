@@ -8,6 +8,7 @@ import { useHistory, useParams } from 'react-router-dom';
 import Select from 'react-select';
 import { Category } from 'core/types/Product';
 import PriceField from './PriceField';
+import ImageUpload from '../ImageUpload';
 
 export type FormState = {
     name: string;
@@ -28,6 +29,8 @@ const Form = () => {
     const { productId } = useParams<ParamsType>();
     const [categories, setCategories] = useState<Category[]>([]);
     const [isLoadingCategories, setIsLoadingCategories] = useState(false);
+    const [uploadedImgUrl, setUploadedImgUrl] = useState('');
+    const [productImgUrl, setProductImgUrl] = useState('');
 
     const isEditing = productId !== 'create';
     const formTitle = isEditing ? 'Editar produto' : 'cadastrar um produto';
@@ -38,9 +41,9 @@ const Form = () => {
                 .then(response => {
                     setValue('name', response.data.name);
                     setValue('price', response.data.price);
-                    setValue('imgUrl', response.data.imgUrl);
                     setValue('description', response.data.description);
                     setValue('categories', response.data.categories);
+                    setProductImgUrl(response.data.imgUrl);
                 });
         }
     }, [productId, isEditing, setValue]);
@@ -58,10 +61,16 @@ const Form = () => {
     }, []);
 
     const onSubmit = (data: FormState) => {
+        const payload = {
+            ...data, 
+            imgUrl: uploadedImgUrl
+        }
+
+
         makePrivateRequest({
             url: isEditing ? `/products/${productId}` : '/products',
             method: isEditing ? 'PUT' : 'POST',
-            data: data
+            data: payload
         })
             .then(() => {
                 toast.info('Produto salvo com sucesso!');
@@ -70,6 +79,10 @@ const Form = () => {
             .catch(() => {
                 toast.error('Erro ao salvar produto!');
             });
+    }
+
+    const onUploadSuccess = (imgUrl: string) => {
+        setUploadedImgUrl(imgUrl);
     }
 
     return (
@@ -125,16 +138,10 @@ const Form = () => {
                             )}
                         </div>
                         <div className='margin-bottom-30'>
-                            <input type="text"
-                                name="imgUrl"
-                                className="form-control input-base"
-                                ref={register({ required: "Campo obrigatório" })}
-                                placeholder={"Endereço da imagem"} />
-                            {errors.imgUrl && (
-                                <div className='invalid-feedback d-block'>
-                                    {errors.imgUrl.message}
-                                </div>
-                            )}
+                            <ImageUpload 
+                            onUploadSuccess={onUploadSuccess}
+                            productImgUrl={productImgUrl}
+                            />
                         </div>
                     </div>
                     <div className="col-6">
