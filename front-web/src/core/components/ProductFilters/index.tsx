@@ -12,15 +12,23 @@ export type FilterForm = {
 }
 
 type Props = {
-    onSearch: (filter: FilterForm) => void;
+    name?: string;
+    handleChangeName: (name: string) => void;
+    category?: Category;
+    handleChangeCategory: (category: Category) => void;
+    clearFilters: () => void;
 }
 
-const ProductFilters = ({onSearch}: Props) => {
+const ProductFilters = ({ 
+    name, 
+    handleChangeName,
+    category, 
+    handleChangeCategory,
+    clearFilters
+}: Props) => {
 
     const [categories, setCategories] = useState<Category[]>([]);
     const [isLoadingCategories, setIsLoadingCategories] = useState(false);
-    const [name, setName] = useState('');
-    const [category, setCategory] = useState<Category>();
 
     useEffect(() => {
         setIsLoadingCategories(true);
@@ -33,22 +41,6 @@ const ProductFilters = ({onSearch}: Props) => {
             })
             .finally(() => setIsLoadingCategories(false));
     }, []);
-
-    const handleChangeName = (name: string) => {
-        setName(name);
-        onSearch({name, categoryId: category?.id});
-    }
-
-    const handleChangeCategory = (category: Category) => {
-        setCategory(category);
-        onSearch({name, categoryId: category?.id});
-    }
-
-    const clearFilters = () => {
-        setName('');
-        setCategory(undefined);
-        onSearch({name: '', categoryId: undefined});
-    }
 
     return (
         <div className='card-base product-filters-container'>
@@ -76,9 +68,9 @@ const ProductFilters = ({onSearch}: Props) => {
                 onChange={value => handleChangeCategory(value as Category)}
                 isClearable
             />
-            <button 
-            className='btn btn-outline-secondary border-radius-10'
-            onClick={clearFilters}
+            <button
+                className='btn btn-outline-secondary border-radius-10'
+                onClick={clearFilters}
             >
                 LIMPAR FILTRO
             </button>
