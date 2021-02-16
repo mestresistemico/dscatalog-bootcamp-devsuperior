@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import ProductCard from './components/ProductCard';
 import { Link } from 'react-router-dom';
 import './styles.scss';
@@ -6,6 +6,7 @@ import { makeRequest } from 'core/utils/request';
 import { ProductsResponse } from 'core/types/Product';
 import ProductCardLoader from './components/Loaders/ProductCardLoader';
 import Pagination from 'core/components/Pagination';
+import ProductFilters, {FilterForm} from 'core/components/ProductFilters';
 
 const Catalog = () => {
 
@@ -13,10 +14,12 @@ const Catalog = () => {
     const [isLoading, setIsLoading] = useState(false);
     const [activePage, setActivePage] = useState(0);
 
-    useEffect(() => {
+    const getProducts = useCallback((filter?: FilterForm) => {
         const params = {
             page: activePage,
-            linesPerPage: 12
+            linesPerPage: 12,
+            name: filter?.name,
+            categoryId: filter?.categoryId
         }
         setIsLoading(true);
         makeRequest({ url: '/products', params })
@@ -24,16 +27,23 @@ const Catalog = () => {
             .finally(() => {
                 setIsLoading(false);
             })
-    }, [activePage]);
+    }, [activePage])
+
+    useEffect(() => {
+        getProducts();
+    }, [getProducts]);
 
     return (
         <div className="catalog-container">
-            <h1 className="catalog-title">
-                Catálogo de produtos
-        </h1>
+            <div className="d-flex justify-content-between">
+                <h1 className="catalog-title">
+                    Catálogo de produtos
+                </h1>
+                <ProductFilters onSearch={filter => getProducts(filter)}/>
+            </div>
             <div className="catalog-products">
                 {isLoading ? <ProductCardLoader /> : (
-                     productsResponse?.content.map(product => (
+                    productsResponse?.content.map(product => (
                         <Link to={`products/${product.id}`} key={product.id}>
                             <ProductCard product={product} />
                         </Link>
@@ -41,10 +51,10 @@ const Catalog = () => {
                 )}
             </div>
             {productsResponse && (
-            <Pagination totalPages={productsResponse.totalPages}
-            activePage={activePage}
-            onChange={(page: React.SetStateAction<number>) => setActivePage(page)}
-            />)}
+                <Pagination totalPages={productsResponse.totalPages}
+                    activePage={activePage}
+                    onChange={(page: React.SetStateAction<number>) => setActivePage(page)}
+                />)}
         </div>
     );
 }
