@@ -43,6 +43,7 @@ export const getAccessTokenDecoded = () => {
 export const isTokenValid = () => {
     const { exp } = getAccessTokenDecoded();
     return Date.now() <= exp * 1000
+    
 }
 
 export const isAuthenticated = () => {
