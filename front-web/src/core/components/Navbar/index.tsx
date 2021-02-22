@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { getAccessTokenDecoded, logout } from 'core/utils/auth';
 import { Link, NavLink, useLocation } from 'react-router-dom';
-import menu from 'core/assets/images/menu.png';
+import menu from 'core/assets/images/menu.svg';
 import './styles.scss';
 
 const Navbar = () => {
