@@ -25,3 +25,41 @@
         color: #407BFF;
     }
 }
+
+
+//tablet breakpoints
+@media (max-width: 768px){
+    .admin-nav-container {
+        width: 100%;
+        height: 120px;
+        display: flex;
+        align-items: center;
+    }
+
+    .admin-nav-container ul{
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around;   
+        align-items: center;
+    }
+
+    .admin-nav-item{
+        width: 278px;
+        height: 60px;
+        border-radius: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding-left: 0px;
+        background: #f2f2f2;
+    }
+}
+//mobile breakpoints
+@media (max-width: 576px){
+    .admin-nav-item{
+        width: 130px;
+        height: 50px;
+        font-size: 0.9em;
+    }
+}

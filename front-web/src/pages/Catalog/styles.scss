@@ -16,3 +16,36 @@
     grid-gap: 33px 20px;
     justify-content: space-between;
 }
+
+.filters-container{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+
+//tablet breakpoints
+@media (max-width: 768px){
+    .filters-container{
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .catalog-title{
+        margin-bottom: 20px;
+    }
+
+    .catalog-products{
+        grid-template-columns: repeat(auto-fill, 200px);
+        grid-gap: 33px 10px;
+    }
+    
+}
+
+//mobile breakpoints
+@media (max-width: 576px){
+    .catalog-products{
+        grid-template-columns: repeat(auto-fill, 100%);
+    }
+
+}

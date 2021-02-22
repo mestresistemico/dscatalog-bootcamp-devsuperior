@@ -25,3 +25,16 @@
     width:160px;
     height: 160px;
 }
+
+//tablet breakpoints
+@media (max-width: 768px){
+    .menu-container {
+        justify-content: flex-end;
+    }
+}
+//mobile breakpoints
+@media (max-width: 576px){
+    .product-card{
+        padding: 10px 10px 30px 10px;
+    }
+}

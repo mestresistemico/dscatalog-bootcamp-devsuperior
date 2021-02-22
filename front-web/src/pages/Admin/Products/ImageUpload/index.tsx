@@ -47,8 +47,7 @@ const ImageUpload = ({onUploadSuccess, productImgUrl}: Props) => {
     }
 
     return (
-        <div className='row'>
-            <div className="col-6">
+        <div className='upload-container'>
                 <div className="upload-button-container">
                     <input
                         type='file'
@@ -62,8 +61,7 @@ const ImageUpload = ({onUploadSuccess, productImgUrl}: Props) => {
                 <small className='upload-text-helper text-primary'>
                     As imagens devem ser JPG ou PNG e não devem ultrapassar <strong>5 mb</strong>.
                 </small>
-            </div>
-            <div className="col-6 upload-placeholder">
+            <div className="upload-placeholder">
                 {uploadProgress > 0 && (
                     <>
                         <UploadPlaceholder />

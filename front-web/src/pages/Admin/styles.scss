@@ -10,3 +10,14 @@
 .admin-list-container{
     margin: 45px 0;
 }
+
+//tablet breakpoints
+@media (max-width: 768px){
+    .admin-container {
+        flex-direction: column;
+    }
+
+}
+//mobile breakpoints
+@media (max-width: 576px){
+}

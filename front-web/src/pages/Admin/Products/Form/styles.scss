@@ -1,3 +1,8 @@
+.product-form-container{
+    display: flex;
+    flex-direction: row;    
+}
+
 .categories-select__control {
     height: 50px;
     border-radius: 10px !important;
@@ -11,4 +16,31 @@
 
 .categories-select__placeholder{
     color: #9e9e9e;
+}
+
+//tablet breakpoints
+@media (max-width: 768px){
+}
+//mobile breakpoints
+@media (max-width: 576px){
+    .product-form-container {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        margin-left: -15px;
+
+        .input{
+            width: 250px;
+        }
+
+        .input-base{
+            width: 250px;
+        }
+
+        .categories-select__control {
+            width: 250px;
+            min-width: 50px;
+            height: 100%;
+        }
+    }
 }

@@ -13,3 +13,19 @@
     letter-spacing: -0.015em;
     color: #263238;
 }
+
+//tablet breakpoints
+@media (max-width: 768px){
+}
+
+//mobile breakpoints
+@media (max-width: 576px){
+    .auth-card {
+        width: 90wv;
+        margin: 0 auto;
+        padding: 10px;
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+    }
+}
