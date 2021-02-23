@@ -113,7 +113,10 @@ const Form = () => {
                                 as={Select}
                                 name='categories'
                                 control={control}
-                                rules={{ required: true }}
+                                rules={{
+                                    required: true,
+                                    validate: (value: Category[]) => value?.length > 0
+                                }}
                                 options={categories}
                                 getOptionLabel={(option: Category) => option.name}
                                 getOptionValue={(option: Category) => String(option.id)}
