@@ -55,7 +55,7 @@ const Form = () => {
         })
             .then(response => setCategories(response.data.content))
             .catch(() => {
-                toast.error('Erro ao salvar produto!');
+                toast.error('Erro ao carregar categorias!');
             })
             .finally(() => setIsLoadingCategories(false));
     }, []);
