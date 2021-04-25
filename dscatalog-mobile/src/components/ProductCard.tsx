@@ -1,5 +1,5 @@
-import { useNavigation } from '@react-navigation/native';
 import React from 'react';
+import { useNavigation } from '@react-navigation/native';
 import { View, Text, ImageSourcePropType, TouchableOpacity, Image } from 'react-native';
 import { text, theme } from '../styles';
 
@@ -8,10 +8,11 @@ interface ProductProps {
     imgUrl: ImageSourcePropType;
     name: String;
     price: Number;
+    role?: String;
 }
 
 
-const ProductCard: React.FC<ProductProps> = ({ id, imgUrl, name, price }) => {
+const ProductCard: React.FC<ProductProps> = ({ id, imgUrl, name, price, role }) => {
     const navigation = useNavigation();
     return (
         <TouchableOpacity style={theme.productCard} onPress={() =>
@@ -30,6 +31,18 @@ const ProductCard: React.FC<ProductProps> = ({ id, imgUrl, name, price }) => {
                         {price}
                     </Text>
                 </View>
+                {
+                    role === "admin" && (
+                        <View style={theme.buttonContainer}>
+                            <TouchableOpacity style={theme.deleteBtn}>
+                                <Text style={text.deleteTxt}>Excluir</Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity style={theme.editBtn}>
+                                <Text style={text.editTxt}>Editar</Text>
+                            </TouchableOpacity>
+                            </View>
+                    )
+                }
             </View>
         </TouchableOpacity>
     )
