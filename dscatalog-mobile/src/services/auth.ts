@@ -47,8 +47,3 @@ export async function doLogout() {
         console.warn(e);
     }
 }
-
-export async function userToken() {
-    const token = AsyncStorage.getItem("@token");
-    return token;
-}
