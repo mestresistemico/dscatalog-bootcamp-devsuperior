@@ -3,7 +3,7 @@ import { View, Text, ActivityIndicator } from 'react-native';
 import  { ProductCard, SearchInput } from '../components';
 import { ScrollView } from 'react-native-gesture-handler';
 import { theme } from '../styles';
-import { api } from '../services';
+import { api, getProducts } from '../services';
 
 const Catalog: React.FC = () => {
     const [search, setSearch] = useState("");
@@ -12,7 +12,7 @@ const Catalog: React.FC = () => {
 
     async function fillProducts() {
         setLoading(true);
-        const res = await api.get('/products');
+        const res = await getProducts();
         setProducts(res.data.content);
         setLoading(false);
     };

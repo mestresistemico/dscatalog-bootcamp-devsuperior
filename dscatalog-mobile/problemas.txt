@@ -1,0 +1,5 @@
+Problemas mobile:
+
+TouchableOpacity funciona mal, demora a aparecer, não fica disponível
+Modal não permite clicar e trava
+Carregamento do arquivo dá Network error

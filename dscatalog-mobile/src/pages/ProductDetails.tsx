@@ -32,10 +32,6 @@ const ProductDetails = ({ route: { params: { id } } }) => {
     useEffect(() => {
         loadProductData();
     }, []);
-    /*
-
-
-    */
 
     return (
         <View style={theme.detailsContainer}>
