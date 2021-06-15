@@ -6,14 +6,15 @@ import { FormState } from './'
 type Props = {
     control: Control<FormState>
 }
-const PriceField = ({control}: Props) => (
+const PriceField = ({ control }: Props) => (
     <Controller
         name='price'
         control={control}
         defaultValue=''
         rules={{
             required: "Campo obrigatório",
-            setValueAs: (value: string) => value?.replace(',', '.') 
+            setValueAs: (value: string) => 
+                    value?.replace(',', '.')
         }}
         render={({ value, onChange }) => (
             <CurrencyInput

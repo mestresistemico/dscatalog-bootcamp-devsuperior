@@ -1,5 +1,9 @@
 Problemas mobile:
 
+<ActivityIndicator size="large" /> não funciona. Para carregamentos, usar const toast = Toast.showLoading("Loading..."); e Toast.hide(toast);
+
 TouchableOpacity funciona mal, demora a aparecer, não fica disponível
+
 Modal não permite clicar e trava
+
 Carregamento do arquivo dá Network error
