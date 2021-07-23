@@ -66,4 +66,10 @@ public class CategoryResource {
 		service.delete(id);
 		return ResponseEntity.noContent().build();
 	}
+
+	@DeleteMapping(value = "/{categoryId}/products/{productId}")
+	public ResponseEntity<Void> removeProduct(@PathVariable Long categoryId, @PathVariable Long productId){
+		service.removeProduct(categoryId, productId);
+		return ResponseEntity.noContent().build();
+	}
 }

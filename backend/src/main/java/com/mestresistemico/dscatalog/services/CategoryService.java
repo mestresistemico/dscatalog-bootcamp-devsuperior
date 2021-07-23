@@ -14,7 +14,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.mestresistemico.dscatalog.dto.CategoryDTO;
 import com.mestresistemico.dscatalog.entities.Category;
+import com.mestresistemico.dscatalog.entities.Product;
 import com.mestresistemico.dscatalog.repositories.CategoryRepository;
+import com.mestresistemico.dscatalog.repositories.ProductRepository;
 import com.mestresistemico.dscatalog.services.exceptions.DatabaseException;
 import com.mestresistemico.dscatalog.services.exceptions.ResourceNotFoundException;
 
@@ -23,6 +25,9 @@ public class CategoryService {
 
 	@Autowired
 	private CategoryRepository repository;
+
+	@Autowired
+	private ProductRepository productRepository;
 
 	@Transactional(readOnly = true)
 	public Page<CategoryDTO> findAllPaged(PageRequest pageRequest) {
@@ -57,6 +62,7 @@ public class CategoryService {
 		}
 	}
 
+	@Transactional
 	public void delete(Long id) {
 		try {
 			repository.deleteById(id);
@@ -66,4 +72,13 @@ public class CategoryService {
 			throw new DatabaseException("Integrity violation");
 		}
 	}
+	
+	@Transactional
+	public void removeProduct(Long categoryId, Long productId) {
+		Category category = repository.getOne(categoryId);
+		Product product= productRepository.getOne(productId);
+		product.getCategories().remove(category); // só remove se aplicado na entidade mandante nas anotations jpa
+		productRepository.save(product);
+	}
+	
 }
