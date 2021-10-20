@@ -30,6 +30,7 @@
     "react-native-screens": "~3.4.0",
     "react-native-tiny-toast": "^1.0.7",
     "react-native-web": "~0.13.12",
+    "set-value": "^4.1.0",
     "ws": "^7.5.3",
     "xmldom": "^0.6.0"
   },
